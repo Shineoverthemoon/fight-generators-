@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joe's Fight Generators</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  --dark:  #070709;
+  --panel: #0E0E12;
+  --border:#1E1E28;
+  --text:  #EEEEFF;
+  --dim:   #55556A;
+}
+
+body{
+  background:var(--dark);
+  color:var(--text);
+  font-family:'Inter',sans-serif;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:40px 16px 80px;
+  overflow-x:hidden;
+}
+
+/* animated bg */
+body::before{
+  content:'';position:fixed;inset:0;
+  background:
+    radial-gradient(ellipse 60% 40% at 10% 5%, rgba(200,24,26,0.06) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 35% at 90% 90%, rgba(26,110,255,0.05) 0%,transparent 60%),
+    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255,215,0,0.03) 0%,transparent 70%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── header ── */
+.header{text-align:center;position:relative;z-index:1;margin-bottom:48px;}
+
+.crown{font-size:2.5rem;margin-bottom:8px;}
+
+.title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.8rem,10vw,5.5rem);
+  letter-spacing:0.06em;
+  line-height:1;
+  color:var(--text);
+}
+.title .fire{color:#FF4400;}
+.title .bolt{color:#FFD700;}
+
+.tagline{
+  font-size:0.72rem;
+  letter-spacing:0.25em;
+  text-transform:uppercase;
+  color:var(--dim);
+  margin-top:10px;
+}
+
+.stat-row{
+  display:flex;gap:28px;justify-content:center;
+  margin-top:20px;flex-wrap:wrap;
+}
+.stat{text-align:center;}
+.stat-num{
+  font-family:'Orbitron',sans-serif;
+  font-size:1.6rem;font-weight:900;
+  color:var(--text);
+}
+.stat-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:2px;}
+
+/* ── section label ── */
+.section-label{
+  font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:14px;
+  position:relative;z-index:1;
+  width:100%;max-width:900px;
+  padding-left:4px;
+}
+
+/* ── grid ── */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
+  gap:14px;
+  width:100%;max-width:900px;
+  position:relative;z-index:1;
+  margin-bottom:32px;
+}
+
+/* ── card ── */
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 18px;
+  text-decoration:none;
+  color:var(--text);
+  display:flex;flex-direction:column;gap:8px;
+  transition:transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+  position:relative;
+  overflow:hidden;
+}
+.card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(135deg, var(--accent-a) 0%, transparent 60%);
+  opacity:0.06;
+  transition:opacity 0.15s;
+  pointer-events:none;
+}
+.card:hover{
+  transform:translateY(-3px);
+  border-color:var(--accent-a);
+  box-shadow:0 8px 30px rgba(0,0,0,0.4);
+}
+.card:hover::before{opacity:0.12;}
+
+.card-icon{font-size:1.8rem;line-height:1;}
+.card-game{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;letter-spacing:0.06em;
+  color:var(--text);line-height:1.1;
+}
+.card-mode{
+  font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;
+  padding:3px 8px;border-radius:10px;
+  display:inline-flex;align-items:center;gap:4px;
+  width:fit-content;
+}
+.card-desc{font-size:0.76rem;color:var(--dim);line-height:1.4;margin-top:2px;}
+
+.badge-pvp{background:rgba(200,24,26,0.18);color:#FF6666;}
+.badge-cpu{background:rgba(26,110,255,0.15);color:#6699FF;}
+
+/* accent colors per card */
+.c1{--accent-a:#C0181A;}
+.c2{--accent-a:#FF6B00;}
+.c3{--accent-a:#FFD700;}
+.c4{--accent-a:#1A8CFF;}
+.c5{--accent-a:#E8420A;}
+.c6{--accent-a:#00BFFF;}
+.c7{--accent-a:#CC0000;}
+.c8{--accent-a:#FF6B00;}
+
+/* ── footer ── */
+.footer{
+  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
+  color:var(--dim);margin-top:20px;text-align:center;
+  position:relative;z-index:1;
+}
+
+@media(max-width:500px){
+  .grid{grid-template-columns:1fr;}
+  .stat-row{gap:18px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="crown">🎮</div>
+  <div class="title"><span class="fire">JOE'S</span> <span class="bolt">GENERATORS</span></div>
+  <div class="tagline">8 Games · All Free · All Deployed</div>
+  <div class="stat-row">
+    <div class="stat"><div class="stat-num">8</div><div class="stat-label">Generators</div></div>
+    <div class="stat"><div class="stat-num">700+</div><div class="stat-label">Characters</div></div>
+    <div class="stat"><div class="stat-num">$0</div><div class="stat-label">Running Cost</div></div>
+  </div>
+</div>
+
+<!-- 2-player -->
+<div class="section-label">⚔ Joe vs Jack</div>
+<div class="grid" style="margin-bottom:28px;">
+
+  <a class="card c1" href="https://shineoverthemoon.github.io/ufc-randomizer" target="_blank">
+    <div class="card-icon">🥊</div>
+    <div class="card-game">UFC 6 — Matchup Picker</div>
+    <div class="card-mode badge-pvp">👥 Joe vs Jack</div>
+    <div class="card-desc">Full roster with autocomplete. Pick your fighters, randomize who plays who.</div>
+  </a>
+
+</div>
+
+<!-- Solo generators -->
+<div class="section-label">🤖 Joe vs CPU</div>
+<div class="grid">
+
+  <a class="card c2" href="https://shineoverthemoon.github.io/UFC-6-Fight-Generator" target="_blank">
+    <div class="card-icon">🥊</div>
+    <div class="card-game">UFC 6 — Fight Generator</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">Full roster by division + Open Weight chaos mode. Fight breakdown included.</div>
+  </a>
+
+  <a class="card c3" href="https://shineoverthemoon.github.io/dbz-sz-generator" target="_blank">
+    <div class="card-icon">⚡</div>
+    <div class="card-game">Dragon Ball: Sparking! Zero</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">200+ fighters · 1v1 to 5v5 · All 3 DLC packs + Daima + Shallot included.</div>
+  </a>
+
+  <a class="card c4" href="https://shineoverthemoon.github.io/Mha-Fight-Generator" target="_blank">
+    <div class="card-icon">💥</div>
+    <div class="card-game">MHA: All's Justice</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">3v3 team battles · Full Class 1-A · Star & Stripe + Nana Shimura DLC.</div>
+  </a>
+
+  <a class="card c5" href="https://shineoverthemoon.github.io/Demon-Slayer-Hinokami-Chronicles-2-Generator" target="_blank">
+    <div class="card-icon">🔥</div>
+    <div class="card-game">Demon Slayer: HC2</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">All 9 Hashira · Full Infinity Castle DLC · 46 characters total.</div>
+  </a>
+
+  <a class="card c6" href="https://shineoverthemoon.github.io/BLEACH-REBIRTH-OF-SOULS-Fight-Generator" target="_blank">
+    <div class="card-icon">⚔️</div>
+    <div class="card-game">Bleach: Rebirth of Souls</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">Full launch roster + all 4 Season Pass DLC · Soul Reapers, Espada, Quincies.</div>
+  </a>
+
+  <a class="card c7" href="https://shineoverthemoon.github.io/MORTAL-KOMBAT-DECEPTION-Chess-Generator" target="_blank">
+    <div class="card-icon">♟️</div>
+    <div class="card-game">MK: Deception Chess Kombat</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">Generates full 16-piece chess board with lore-based role assignments.</div>
+  </a>
+
+  <a class="card c8" href="https://shineoverthemoon.github.io/NARUTO-X-BORUTO-STORM-CONNECTIONS-Fight-Generator" target="_blank">
+    <div class="card-icon">🍃</div>
+    <div class="card-game">Naruto Storm Connections</div>
+    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
+    <div class="card-desc">90+ fighters · All 5 DLC packs · Konoha, Akatsuki, Boruto era, Otsutsuki.</div>
+  </a>
+
+</div>
+
+<div class="footer">Built by Joe · Hosted free on GitHub Pages · No backend · No cost</div>
+
+</body>
+</html>
