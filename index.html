@@ -2,162 +2,90 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Joe's Fight Generators</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@700;900&family=Inter:wght@400;500;600&display=swap');
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-
 :root{
-  --dark:  #070709;
-  --panel: #0E0E12;
-  --border:#1E1E28;
-  --text:  #EEEEFF;
-  --dim:   #55556A;
+  --dark:#070709;--panel:#0E0E12;--border:#1E1E28;--text:#EEEEFF;--dim:#55556A;
+  --red:#C0181A;--gold:#FFD700;--blue:#1A8CFF;--green:#22C55E;--purple:#9B30FF;
 }
-
-body{
-  background:var(--dark);
-  color:var(--text);
-  font-family:'Inter',sans-serif;
-  min-height:100vh;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  padding:40px 16px 80px;
-  overflow-x:hidden;
-}
-
-/* animated bg */
-body::before{
-  content:'';position:fixed;inset:0;
-  background:
-    radial-gradient(ellipse 60% 40% at 10% 5%, rgba(200,24,26,0.06) 0%,transparent 60%),
-    radial-gradient(ellipse 50% 35% at 90% 90%, rgba(26,110,255,0.05) 0%,transparent 60%),
-    radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255,215,0,0.03) 0%,transparent 70%);
-  pointer-events:none;z-index:0;
-}
+body{background:var(--dark);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 12px 60px;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:radial-gradient(ellipse 60% 40% at 10% 5%,rgba(200,24,26,0.06) 0%,transparent 60%),radial-gradient(ellipse 50% 35% at 90% 90%,rgba(26,110,255,0.05) 0%,transparent 60%);pointer-events:none;z-index:0;}
 
 /* ── header ── */
-.header{text-align:center;position:relative;z-index:1;margin-bottom:48px;}
-
-.crown{font-size:2.5rem;margin-bottom:8px;}
-
-.title{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:clamp(2.8rem,10vw,5.5rem);
-  letter-spacing:0.06em;
-  line-height:1;
-  color:var(--text);
-}
-.title .fire{color:#FF4400;}
-.title .bolt{color:#FFD700;}
-
-.tagline{
-  font-size:0.72rem;
-  letter-spacing:0.25em;
-  text-transform:uppercase;
-  color:var(--dim);
-  margin-top:10px;
-}
-
-.stat-row{
-  display:flex;gap:28px;justify-content:center;
-  margin-top:20px;flex-wrap:wrap;
-}
+.header{text-align:center;position:relative;z-index:1;margin-bottom:28px;width:100%;}
+.crown{font-size:2rem;margin-bottom:6px;}
+.title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,9vw,5rem);letter-spacing:0.06em;line-height:1;color:var(--text);}
+.title .fire{color:var(--red);}
+.title .bolt{color:var(--gold);}
+.tagline{font-size:0.68rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--dim);margin-top:8px;}
+.stat-row{display:flex;gap:20px;justify-content:center;margin-top:16px;flex-wrap:wrap;}
 .stat{text-align:center;}
-.stat-num{
-  font-family:'Orbitron',sans-serif;
-  font-size:1.6rem;font-weight:900;
-  color:var(--text);
-}
-.stat-label{font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:2px;}
+.stat-num{font-family:'Orbitron',sans-serif;font-size:1.4rem;font-weight:900;color:var(--text);}
+.stat-label{font-size:0.58rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);margin-top:1px;}
 
-/* ── section label ── */
-.section-label{
-  font-size:0.65rem;letter-spacing:0.22em;text-transform:uppercase;
-  color:var(--dim);margin-bottom:14px;
-  position:relative;z-index:1;
-  width:100%;max-width:900px;
-  padding-left:4px;
+/* ── section ── */
+.section{width:100%;max-width:640px;position:relative;z-index:1;margin-bottom:32px;}
+.section-header{
+  display:flex;align-items:center;gap:10px;
+  margin-bottom:12px;padding-bottom:10px;
+  border-bottom:1px solid var(--border);
 }
+.section-icon{font-size:1.2rem;}
+.section-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:var(--text);}
+.section-count{font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-left:auto;}
 
-/* ── grid ── */
-.grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:14px;
-  width:100%;max-width:900px;
-  position:relative;z-index:1;
-  margin-bottom:32px;
-}
+/* ── cards ── */
+.card-list{display:flex;flex-direction:column;gap:10px;}
 
-/* ── card ── */
 .card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px 18px;
-  text-decoration:none;
-  color:var(--text);
-  display:flex;flex-direction:column;gap:8px;
-  transition:transform 0.15s, border-color 0.15s, box-shadow 0.15s;
-  position:relative;
-  overflow:hidden;
+  background:var(--panel);border:1px solid var(--border);border-radius:12px;
+  padding:14px 14px;text-decoration:none;color:var(--text);
+  display:flex;align-items:center;gap:12px;
+  transition:transform 0.12s,border-color 0.15s,box-shadow 0.15s;
+  position:relative;overflow:hidden;
+  /* touch friendly */
+  min-height:64px;
+  -webkit-tap-highlight-color:transparent;
 }
-.card::before{
-  content:'';
-  position:absolute;inset:0;
-  background:linear-gradient(135deg, var(--accent-a) 0%, transparent 60%);
-  opacity:0.06;
-  transition:opacity 0.15s;
-  pointer-events:none;
-}
-.card:hover{
-  transform:translateY(-3px);
-  border-color:var(--accent-a);
-  box-shadow:0 8px 30px rgba(0,0,0,0.4);
-}
-.card:hover::before{opacity:0.12;}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--ac) 0%,transparent 50%);opacity:0.05;transition:opacity 0.15s;pointer-events:none;}
+.card:active{transform:scale(0.98);}
+.card:hover{border-color:var(--ac);box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+.card:hover::before{opacity:0.1;}
 
-.card-icon{font-size:1.8rem;line-height:1;}
-.card-game{
-  font-family:'Bebas Neue',sans-serif;
-  font-size:1.05rem;letter-spacing:0.06em;
-  color:var(--text);line-height:1.1;
-}
-.card-mode{
-  font-size:0.65rem;letter-spacing:0.16em;text-transform:uppercase;
-  padding:3px 8px;border-radius:10px;
-  display:inline-flex;align-items:center;gap:4px;
-  width:fit-content;
-}
-.card-desc{font-size:0.76rem;color:var(--dim);line-height:1.4;margin-top:2px;}
+.card-icon{font-size:1.5rem;flex-shrink:0;width:36px;text-align:center;}
+.card-body{flex:1;min-width:0;}
+.card-game{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:0.05em;color:var(--text);line-height:1.1;}
+.card-desc{font-size:0.7rem;color:var(--dim);line-height:1.4;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-arrow{font-size:0.8rem;color:var(--dim);flex-shrink:0;}
 
-.badge-pvp{background:rgba(200,24,26,0.18);color:#FF6666;}
-.badge-cpu{background:rgba(26,110,255,0.15);color:#6699FF;}
-
-/* accent colors per card */
-.c1{--accent-a:#C0181A;}
-.c2{--accent-a:#FF6B00;}
-.c3{--accent-a:#FFD700;}
-.c4{--accent-a:#1A8CFF;}
-.c5{--accent-a:#E8420A;}
-.c6{--accent-a:#00BFFF;}
-.c7{--accent-a:#CC0000;}
-.c8{--accent-a:#FF6B00;}
+.badge{font-size:0.55rem;letter-spacing:0.1em;text-transform:uppercase;padding:2px 7px;border-radius:8px;margin-top:4px;display:inline-block;}
+.badge-cpu{background:rgba(26,140,255,0.15);color:#6699FF;}
+.badge-pvp{background:rgba(200,24,26,0.18);color:#FF8888;}
+.badge-rec{background:rgba(34,197,94,0.15);color:#66CC88;}
 
 /* ── footer ── */
-.footer{
-  font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;
-  color:var(--dim);margin-top:20px;text-align:center;
-  position:relative;z-index:1;
-}
+.footer{font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--dim);margin-top:8px;text-align:center;position:relative;z-index:1;}
 
-@media(max-width:500px){
-  .grid{grid-template-columns:1fr;}
-  .stat-row{gap:18px;}
+/* accent colors */
+.ac-red{--ac:var(--red);}
+.ac-gold{--ac:var(--gold);}
+.ac-blue{--ac:var(--blue);}
+.ac-orange{--ac:#FF6B00;}
+.ac-fire{--ac:#E8420A);}
+.ac-teal{--ac:#00BFFF;}
+.ac-blood{--ac:#8B0000;}
+.ac-naruto{--ac:#FF6B00;}
+.ac-green{--ac:var(--green);}
+.ac-purple{--ac:var(--purple);}
+.ac-sf{--ac:#FF2200;}
+.ac-tekken{--ac:#0077FF;}
+
+@media(max-width:400px){
+  .card-desc{display:none;}
+  .card{min-height:56px;}
 }
 </style>
 </head>
@@ -166,121 +94,182 @@ body::before{
 <div class="header">
   <div class="crown">🎮</div>
   <div class="title"><span class="fire">JOE'S</span> <span class="bolt">GENERATORS</span></div>
-  <div class="tagline">8 Games · All Free · All Deployed</div>
+  <div class="tagline">14 Tools · 1000+ Characters · Always Free</div>
   <div class="stat-row">
-    <div class="stat"><div class="stat-num">14</div><div class="stat-label">Tools</div></div>
-    <div class="stat"><div class="stat-num">1000+</div><div class="stat-label">Characters</div></div>
-    <div class="stat"><div class="stat-num">$0</div><div class="stat-label">Running Cost</div></div>
+    <div class="stat"><div class="stat-num">10</div><div class="stat-label">Fight Gens</div></div>
+    <div class="stat"><div class="stat-num">2</div><div class="stat-label">Recommenders</div></div>
+    <div class="stat"><div class="stat-num">1</div><div class="stat-label">Matchup Picker</div></div>
+    <div class="stat"><div class="stat-num">$0</div><div class="stat-label">Cost</div></div>
   </div>
 </div>
 
-<div class="section-label">🤖 Joe vs CPU</div>
-<div class="grid">
+<!-- ── SECTION 1: FIGHT GENERATORS ── -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">⚔️</span>
+    <span class="section-title">Fight Generators</span>
+    <span class="section-count">Joe vs CPU · 10 tools</span>
+  </div>
+  <div class="card-list">
 
-  <a class="card c2" href="https://shineoverthemoon.github.io/UFC-6-Fight-Generator" target="_blank">
-    <div class="card-icon">🥊</div>
-    <div class="card-game">UFC 6 — Fight Generator</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">Full roster by division + Open Weight chaos mode. Fight breakdown included.</div>
-  </a>
+    <a class="card ac-red" href="https://shineoverthemoon.github.io/UFC-6-Fight-Generator" target="_blank">
+      <div class="card-icon">🥊</div>
+      <div class="card-body">
+        <div class="card-game">UFC 6 — Fight Generator</div>
+        <div class="card-desc">Full roster · Division filters · Open Weight chaos mode</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c3" href="https://shineoverthemoon.github.io/dbz-sz-generator" target="_blank">
-    <div class="card-icon">⚡</div>
-    <div class="card-game">Dragon Ball: Sparking! Zero</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">200+ fighters · 1v1 to 5v5 · All 3 DLC packs + Daima + Shallot included.</div>
-  </a>
+    <a class="card ac-gold" href="https://shineoverthemoon.github.io/dbz-sz-generator" target="_blank">
+      <div class="card-icon">⚡</div>
+      <div class="card-body">
+        <div class="card-game">Dragon Ball: Sparking! Zero</div>
+        <div class="card-desc">200+ fighters · 1v1 to 5v5 · All DLC including Daima</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c4" href="https://shineoverthemoon.github.io/Mha-Fight-Generator" target="_blank">
-    <div class="card-icon">💥</div>
-    <div class="card-game">MHA: All's Justice</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">3v3 team battles · Full Class 1-A · Star & Stripe + Nana Shimura DLC.</div>
-  </a>
+    <a class="card ac-blue" href="https://shineoverthemoon.github.io/Mha-Fight-Generator" target="_blank">
+      <div class="card-icon">💥</div>
+      <div class="card-body">
+        <div class="card-game">MHA: All's Justice</div>
+        <div class="card-desc">3v3 team battles · Full roster + Star & Stripe DLC</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c5" href="https://shineoverthemoon.github.io/Demon-Slayer-Hinokami-Chronicles-2-Generator" target="_blank">
-    <div class="card-icon">🔥</div>
-    <div class="card-game">Demon Slayer: HC2</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">All 9 Hashira · Full Infinity Castle DLC · 46 characters total.</div>
-  </a>
+    <a class="card ac-orange" href="https://shineoverthemoon.github.io/Demon-Slayer-Hinokami-Chronicles-2-Generator" target="_blank">
+      <div class="card-icon">🔥</div>
+      <div class="card-body">
+        <div class="card-game">Demon Slayer: HC2</div>
+        <div class="card-desc">All 9 Hashira · Full Infinity Castle DLC · 46 chars</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c6" href="https://shineoverthemoon.github.io/BLEACH-REBIRTH-OF-SOULS-Fight-Generator" target="_blank">
-    <div class="card-icon">⚔️</div>
-    <div class="card-game">Bleach: Rebirth of Souls</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">Full launch roster + all 4 Season Pass DLC · Soul Reapers, Espada, Quincies.</div>
-  </a>
+    <a class="card ac-teal" href="https://shineoverthemoon.github.io/BLEACH-REBIRTH-OF-SOULS-Fight-Generator" target="_blank">
+      <div class="card-icon">⚔️</div>
+      <div class="card-body">
+        <div class="card-game">Bleach: Rebirth of Souls</div>
+        <div class="card-desc">Full launch roster + all Season Pass DLC</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c7" href="https://shineoverthemoon.github.io/MORTAL-KOMBAT-DECEPTION-Chess-Generator" target="_blank">
-    <div class="card-icon">♟️</div>
-    <div class="card-game">MK: Deception Chess Kombat</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">Generates full 16-piece chess board with lore-based role assignments.</div>
-  </a>
+    <a class="card ac-blood" href="https://shineoverthemoon.github.io/MORTAL-KOMBAT-DECEPTION-Chess-Generator" target="_blank">
+      <div class="card-icon">♟️</div>
+      <div class="card-body">
+        <div class="card-game">MK: Deception Chess Kombat</div>
+        <div class="card-desc">Full 16-piece board with lore-based role assignments</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card c8" href="https://shineoverthemoon.github.io/NARUTO-X-BORUTO-STORM-CONNECTIONS-Fight-Generator" target="_blank">
-    <div class="card-icon">🍃</div>
-    <div class="card-game">Naruto Storm Connections</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">90+ fighters · All 5 DLC packs · Konoha, Akatsuki, Boruto era, Otsutsuki.</div>
-  </a>
+    <a class="card ac-naruto" href="https://shineoverthemoon.github.io/NARUTO-X-BORUTO-STORM-CONNECTIONS-Fight-Generator" target="_blank">
+      <div class="card-icon">🍃</div>
+      <div class="card-body">
+        <div class="card-game">Naruto Storm Connections</div>
+        <div class="card-desc">90+ fighters · All 5 DLC packs · Boruto era included</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
+    <a class="card ac-tekken" href="https://shineoverthemoon.github.io/TEKKEN-8-Fight-Generator" target="_blank">
+      <div class="card-icon">👊</div>
+      <div class="card-body">
+        <div class="card-game">Tekken 8</div>
+        <div class="card-desc">41 fighters · Season 3 · Kunimitsu + Yujiro revealed</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
+
+    <a class="card ac-sf" href="https://shineoverthemoon.github.io/STREET-FIGHTER-6-Fight-Generator" target="_blank">
+      <div class="card-icon">🔥</div>
+      <div class="card-body">
+        <div class="card-game">Street Fighter 6</div>
+        <div class="card-desc">30 chars · Year 3 complete · Rushdown / Zoner / Grappler</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
+
+    <a class="card ac-gold" href="https://shineoverthemoon.github.io/DRAGON-BALL-FIGHTERZ-3v3-Team-Generator" target="_blank">
+      <div class="card-icon">⚡</div>
+      <div class="card-body">
+        <div class="card-game">Dragon Ball FighterZ</div>
+        <div class="card-desc">44 chars · All 3 DLC passes · 1v1 or 3v3 team builder</div>
+        <span class="badge badge-cpu">Joe vs CPU</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
+
+  </div>
 </div>
 
-  <a class="card" style="--accent-a:#E23636;" href="https://shineoverthemoon.github.io/Marvel-Rivals-Hero-Recommender" target="_blank">
-    <div class="card-icon">🦸</div>
-    <div class="card-game">Marvel Rivals — Hero Recommender</div>
-    <div class="card-mode badge-cpu">🤖 Solo Queue Tool</div>
-    <div class="card-desc">S8.5 patch data · 51 heroes · Recommends based on your team comp, role needs, buffs/nerfs &amp; team-up boosts.</div>
-  </a>
+<!-- ── SECTION 2: RECOMMENDERS ── -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">🧠</span>
+    <span class="section-title">Team Recommenders</span>
+    <span class="section-count">Smart picks · 2 tools</span>
+  </div>
+  <div class="card-list">
 
+    <a class="card ac-red" href="https://shineoverthemoon.github.io/Marvel-Rivals-Hero-Recommender" target="_blank">
+      <div class="card-icon">🦸</div>
+      <div class="card-body">
+        <div class="card-game">Marvel Rivals — Hero Recommender</div>
+        <div class="card-desc">S8.5 · 51 heroes · Reads team comp + buffs/nerfs + team-ups</div>
+        <span class="badge badge-rec">Smart Rec</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card" style="--accent-a:#FFD700;" href="https://shineoverthemoon.github.io/DRAGON-BALL-GEKISHIN-SQUADRA-Recommender" target="_blank">
-    <div class="card-icon">🐉</div>
-    <div class="card-game">DB: Gekishin Squadra — Recommender</div>
-    <div class="card-mode badge-cpu">🤖 Solo Queue Tool</div>
-    <div class="card-desc">Season 5 · 28 heroes · 4v4 MOBA recommender — fills your slot based on team comp.</div>
-  </a>
+    <a class="card ac-gold" href="https://shineoverthemoon.github.io/DRAGON-BALL-GEKISHIN-SQUADRA-Recommender" target="_blank">
+      <div class="card-icon">🐉</div>
+      <div class="card-body">
+        <div class="card-game">DB: Gekishin Squadra — Recommender</div>
+        <div class="card-desc">Season 5 · 28 heroes · 4v4 role-based recommendations</div>
+        <span class="badge badge-rec">Smart Rec</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
 
-  <a class="card" style="--accent-a:#0077FF;" href="https://shineoverthemoon.github.io/TEKKEN-8-Fight-Generator" target="_blank">
-    <div class="card-icon">👊</div>
-    <div class="card-game">Tekken 8 — Fight Generator</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">41 fighters · Season 3 · Kunimitsu + Yujiro Hanma revealed · Style tags + search.</div>
-  </a>
-
-  <a class="card" style="--accent-a:#FF2200;" href="https://shineoverthemoon.github.io/STREET-FIGHTER-6-Fight-Generator" target="_blank">
-    <div class="card-icon">🔥</div>
-    <div class="card-game">Street Fighter 6 — Fight Generator</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">30 characters · Year 3 complete · Rushdown/Zoner/Grappler/Charge filters + search.</div>
-  </a>
-
-  <a class="card" style="--accent-a:#1A8CFF;" href="https://shineoverthemoon.github.io/DRAGON-BALL-FIGHTERZ-3v3-Team-Generator" target="_blank">
-    <div class="card-icon">⚡</div>
-    <div class="card-game">Dragon Ball FighterZ</div>
-    <div class="card-mode badge-cpu">🤖 Joe vs CPU</div>
-    <div class="card-desc">44 characters · All 3 DLC passes + Lab Coat 21 · 1v1 or 3v3 team builder.</div>
-  </a>
-
-
-<!-- 2-player -->
-<div class="section-label">⚔ Joe vs Guest</div>
-<div class="grid" style="margin-bottom:28px;">
-
-  <a class="card c1" href="https://shineoverthemoon.github.io/ufc-randomizer" target="_blank">
-    <div class="card-icon">🥊</div>
-    <div class="card-game">UFC 6 — Matchup Picker</div>
-    <div class="card-mode badge-pvp">👥 Joe vs Guest</div>
-    <div class="card-desc">Full roster with autocomplete. Pick your fighters, randomize who plays who. Send the link to your guest.</div>
-  </a>
-
+  </div>
 </div>
 
-<!-- Solo generators -->
+<!-- ── SECTION 3: JOE VS GUEST ── -->
+<div class="section">
+  <div class="section-header">
+    <span class="section-icon">👥</span>
+    <span class="section-title">Joe vs Guest</span>
+    <span class="section-count">Multiplayer · 1 tool</span>
+  </div>
+  <div class="card-list">
 
-<div class="footer">Built by Joe · Hosted free on GitHub Pages · No backend · No cost</div>
+    <a class="card ac-red" href="https://shineoverthemoon.github.io/ufc-randomizer" target="_blank">
+      <div class="card-icon">🥊</div>
+      <div class="card-body">
+        <div class="card-game">UFC 6 — Matchup Picker</div>
+        <div class="card-desc">Autocomplete search · Randomizes who plays who · Send to anyone</div>
+        <span class="badge badge-pvp">Joe vs Guest</span>
+      </div>
+      <div class="card-arrow">›</div>
+    </a>
+
+  </div>
+</div>
+
+<div class="footer">Built by Joe · GitHub Pages · Free Forever</div>
 
 </body>
 </html>
